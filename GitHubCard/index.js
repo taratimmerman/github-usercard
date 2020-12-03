@@ -1,8 +1,20 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+const profiles = document.querySelector('.cards');
+
+axios.get("https://api.github.com/users/taratimmerman")
+  .then((res) => {
+    profiles.appendChild(userCardMaker(res.data));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +40,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['TTN206', 'eatageV', 'portexe', 'Bloodyaugust', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,7 +61,50 @@ const followersArray = [];
       </div>
     </div>
 */
+function userCardMaker(gitProfile) {
+  // Create elements
+  const userCard = document.createElement('div');
+  const image = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const user = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
 
+  // Assign class names
+  userCard.classList.add('card');
+  cardInfo.classList.add('card-info');
+  user.classList.add('name');
+  userName.classList.add('username');
+
+  // Assign src & textContent
+ image.src = gitProfile.avatar_url;
+ user.textContent = gitProfile.name;
+ userName.textContent = gitProfile.login;
+ location.textContent = `Location: ${gitProfile.location}`;
+ profile.textContent = `Profile: ${gitProfile.html_url}`;
+ followers.textContent = `Followers: ${gitProfile.followers_url}`;
+ following.textContent = `Following: ${gitProfile.following_url}`;
+ bio.textContent = `Bio: ${gitProfile.bio}`;
+
+ // Append
+ userCard.appendChild(image);
+ userCard.appendChild(cardInfo);
+ cardInfo.appendChild(user);
+ cardInfo.appendChild(userName);
+ cardInfo.appendChild(location);
+ cardInfo.appendChild(profile);
+ cardInfo.appendChild(profileLink);
+ cardInfo.appendChild(followers);
+ cardInfo.appendChild(following);
+ cardInfo.appendChild(bio);
+ 
+ return userCard;
+}
 /*
   List of LS Instructors Github username's:
     tetondan
